@@ -85,5 +85,12 @@ pipeline {
           sh "docker push ${REGISTRY}:${BUILD_NUMBER}"
         }
       }
+      stage('Create Artifact') {
+        steps {
+        dir('express-mysql/app') {
+            sh 'zip -r express-mysql.zip .'
+          }
+        }
+}
   }
 }
