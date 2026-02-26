@@ -89,6 +89,7 @@ pipeline {
         steps {
         dir('express-mysql/app') {
             sh 'zip -r express-mysql.zip .'
+            archiveArtifacts artifacts: 'express-mysql.zip', fingerprint: true
           }
         }
 }
