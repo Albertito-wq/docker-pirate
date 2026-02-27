@@ -92,6 +92,7 @@ pipeline {
             archiveArtifacts artifacts: 'express-mysql.zip', fingerprint: true
           }
         }
+        }
       stage('Upload Artifact to Nexus') {
         steps {
         withCredentials([usernamePassword(
@@ -110,4 +111,4 @@ pipeline {
 }
 }
   }
-}
+
