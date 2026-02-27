@@ -92,7 +92,7 @@ pipeline {
             archiveArtifacts artifacts: 'express-mysql.zip', fingerprint: true
           }
         }
-        }
+      }
       stage('Upload Artifact to Nexus') {
         steps {
         withCredentials([usernamePassword(
@@ -107,8 +107,8 @@ pipeline {
               http://mynexus:8081/repository/devops-artifacts/express-mysql-${BUILD_NUMBER}.zip
               """
           }
+        }
       }
+   }
 }
-}
-  }
 
