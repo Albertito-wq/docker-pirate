@@ -28,7 +28,7 @@ services:
   mysonarqube:
     container_name: my_custom_sonarqube
     # build: ./sonarqube_home
-    image: sonarqube:7.9.5-community
+    image: sonarqube:9.9-community
     environment:
       SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
     ports:
@@ -46,11 +46,29 @@ services:
         limits:
           cpus: "2"
           memory: 3G
+  mynexus:
+    container_name: my_custom_nexus
+    image: sonatype/nexus3
+    ports:
+      - "8081:8081"
+    networks:
+      - net_devops
+    volumes:
+      - nexus_data:/nexus-data
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2G
+  
 
 # To use docker-volume (custom_jenkins_home) instead of a directory path-file
 volumes:
   jenkins_home:
     name: "custom_jenkins_home"
+  nexus_data:
+    name: "nexus_data"
 
 networks:
   net_devops:
