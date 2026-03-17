@@ -85,30 +85,7 @@ pipeline {
           sh "docker push ${REGISTRY}:${BUILD_NUMBER}"
         }
       }
-      stage('Create Artifact') {
-        steps {
-        dir('express-mysql/app') {
-            sh 'zip -r express-mysql.zip .'
-            archiveArtifacts artifacts: 'express-mysql.zip', fingerprint: true
-          }
-        }
-      }
-      stage('Upload Artifact to Nexus') {
-        steps {
-        withCredentials([usernamePassword(
-            credentialsId: 'nexus-cred',
-            usernameVariable: 'NEXUS_USER',
-            passwordVariable: 'NEXUS_PASS'
-          )]) {
-
-               sh """
-              curl -v -u $NEXUS_USER:$NEXUS_PASS \
-              --upload-file ${PROJECT_ROOT}/express-mysql.zip \
-              http://mynexus:8081/repository/devops-artifacts/express-mysql-${BUILD_NUMBER}.zip
-              """
-          }
-        }
-      }
+      
    }
 }
 
