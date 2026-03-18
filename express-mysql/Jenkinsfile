@@ -81,10 +81,16 @@ pipeline {
       stage('Deploy docker-image') {
         steps {
           // If the Dockerhub authentication stopped, do it again
-          sh 'docker login'
-          sh "docker push ${REGISTRY}:${BUILD_NUMBER}"
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+           sh '''
+           echo $PASS | docker login -u $USER --password-stdin
+           docker push ${REGISTRY}:${BUILD_NUMBER}
+           '''
+        
         }
       }
+      }
+      
       
    }
 }
